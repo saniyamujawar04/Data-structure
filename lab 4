@@ -1,0 +1,134 @@
+Q1) Write a function count () that takes the head of a linked list as input, and returns the
+number of nodes in the linked list.
+Algorithm:
+Step1) Define the Node Structure:
+a.Create a structure to represent each node in the linked list
+b.Each node should contain a data field to hold the data and a pointer to the
+next node in the list.
+Step2) Implement the count function:
+a.Declare a function count(Node* head) that takes the head of the linked list as
+parameter and returns an integer representing the count of nodes. .
+b.Initialize a variable count to 0 to keep track of the number of nodes.
+c.Initialize a pointer current to the head of the linked list.
+Step3) Use a while loop to traverse the linked list:
+a.Increment the count by 1 for each node.
+b.Move the current pointer to the next node.
+c.Continue the loop until the end of the linked list is reached.
+d. Return the final value of count
+Step4) In the main function:
+a.Create a sample linked list by allocating nodes and connecting them.
+b.Call the count function with the head of the linked list.
+c.Print the result, which is the number of nodes in the linked list.
+
+CODE:
+#include <stdio.h>
+#include <stdlib.h>
+struct Node {
+int data;
+struct Node* next;
+};
+
+int count(struct Node* head) {
+if (head == NULL) {
+return 0;
+}
+int count = 1;
+struct Node* current = head;
+while (current->next != NULL) {
+count++; // Increment for each node
+current = current->next;
+}
+
+return count;
+}
+
+int main() {
+
+struct Node* head = NULL;
+head = (struct Node*)malloc(sizeof(struct Node));
+head->data = 1;
+
+head->next = (struct Node*)malloc(sizeof(struct Node));
+head->next->data = 2;
+head->next->next = (struct Node*)malloc(sizeof(struct Node));
+head->next->next->data = 3;
+head->next->next->next = NULL;
+int num_nodes = count(head);
+printf("Number of nodes in the linked list: %d\n", num_nodes);
+struct Node* current = head;
+while (current != NULL) {
+struct Node* temp = current;
+current = current->next;
+free(temp);
+}
+return 0;
+}
+OUTPUT:
+
+Q2) Consider the following function baz() that takes a pointer to the first node of a linked list.
+void baz (link head)
+
+{
+if (head == NULL)
+return ;
+baz
+(head->next->next) ;
+
+printf (“%d ”,
+head->key) ;
+}
+
+What will be printed when the function is called with the linked list shown below?
+Head -> 1 - > 2 -> 3 -> 4 -> 5-> 6 -||
+ALGORITHM:
+Step1) Insert at End Algorithm (insertAtEnd function):
+1.Take a reference to the head of the linked list and a value to be inserted.
+2.Create a new node with the given value.
+3.If the list is empty (head is nullptr), make the new node the head of the list.
+4.Traverse to the end of the list by following the next pointers until the last node is
+reached.
+5.Update the next pointer of the current last node to point to the new node.
+Step2) baz function:
+1.If the current node is nullptr, return.
+2.Recursively call baz(head->next->next) to skip every second node.
+3.Print the value of the current node.
+Step3) Main Algorithm (main function):
+1.Declae a pointer to the head of the linked list.
+2.Use the insertAtEnd function to add elements to the end of the linked list.
+3.Call the baz function to print every second node in the list.
+Step4) End of the code
+
+CODE:
+#include <stdio.h>
+struct Node {
+int key;
+struct Node* next;
+};
+
+typedef struct Node* link; // Define link as a pointer to a Node
+void baz(link head) {
+if (head == NULL) {
+return;
+}
+baz(head->next->next);
+printf("%d ", head->key);
+}
+int main() {
+link head = malloc(sizeof(struct Node));
+head->key = 1;
+head->next = malloc(sizeof(struct Node));
+head->next->key = 2;
+head->next->next = malloc(sizeof(struct Node));
+head->next->next->key = 3;
+head->next->next->next = malloc(sizeof(struct Node));
+head->next->next->next->key = 4;
+head->next->next->next->next = malloc(sizeof(struct Node));
+head->next->next->next->next->key = 5;
+head->next->next->next->next->next = malloc(sizeof(struct Node));
+head->next->next->next->next->next->key = 6;
+head->next->next->next->next->next->next = NULL;
+
+baz(head);
+printf("\n");
+return 0;
+}
