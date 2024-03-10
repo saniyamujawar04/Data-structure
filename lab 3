@@ -1,0 +1,169 @@
+1. Given two strings S1 and S2, write a program to print the number of times the first string S1 appears
+in the second string S2 as a substring. For example if S1 is “atg” and S2 is “batgccatgatatga”, then the
+program should print 3. Program should work correctly for all possible inputs. DO NOT use any of the
+library functions defined under strings described above.
+
+ALGORITHM:
+Input:Two strings s1 and s2.
+Initialize:Set count to 0 (to store the number of occurrences).
+Loop through s2:For each character at index i in s2 until the end ('\0'):
+a. Check if s1[0] matches s2[i].
+b. If there is a match:
+i. Initialize j to 1 and k to i + 1.
+ii. While s1[j] is not the end of the string ('\0') and s2[k] is not the end of the string ('\0'), and s1[j] is equal
+to s2[k]: - Increment j and k.
+iii. If s1[j] is the end of the string, increment the count.
+Output: Print the value of count as the number of occurrences.
+CODE:
+#include <stdio.h>
+
+int countSubstringOccurrences(char s1[], char s2[]) {
+int count = 0;
+
+for (int i = 0; s2[i] != '\0'; i++) {
+int j, k;
+
+// Check if the current position in s2 matches the first character of s1
+if (s1[0] == s2[i]) {
+j = 1;
+
+k = i + 1;
+
+// Check if the subsequent characters in s2 match the characters in s1
+while (s1[j] != '\0' && s2[k] != '\0' && s1[j] == s2[k]) {
+j++;
+k++;
+}
+
+// If all characters in s1 match, increment the count
+if (s1[j] == '\0') {
+count++;
+}
+}
+}
+
+return count;
+}
+
+int main() {
+char s1[] = "atg";
+char s2[] = "batgccatgatatga";
+
+int occurrences = countSubstringOccurrences(s1, s2);
+
+printf("Number of occurrences: %d\n", occurrences);
+
+return 0;
+}
+Complexity Analysis:
+Time complexity: O(m*n)
+
+Space complexity: O(1)
+
+OUTPUT:
+
+2. The absolute distance between two integers x1 and x2 is given by | x2 – x1 |. Write a
+function which
+sorts an array x[ ] of n integers in ascending order of their absolute distances with a given
+number z.
+For example, given x[ ] = {9, 1, 12, 4, 2} and z = 6, the sorted array will be x[ ] = {4, 9, 2, 1,
+12}. Note
+that 4 is closest to 6, and 12 is farthest from 6, in terms of absolute distances. The
+function will have
+the following prototype:
+void dist_sort( int x[ ], int n, int z ) ;
+
+ALGORITHM:
+Input: Create an array x, its size n, and a target value z.
+Allocate Memory for SortInfo Array : Dynamically allocate an array of SortInfo structures (infoArray).
+Populate SortInfo Array:For each element in x, calculate its absolute distance from z and store in infoArray.
+Sort SortInfo Array using qsort:Use the qsort function to sort infoArray based on absolute distances.
+Copy Sorted Values Back to Original Array:Copy the sorted values back to the original array x.
+Deallocate Memory:Free the dynamically allocated memory for infoArray.
+Print Original Array:Display the original array.
+Call dist_sort Function:Call the dist_sort function with x, n, and z as parameters.
+Print Sorted Array:Display the sorted array based on absolute distances.
+
+Finish:End the program successfully
+
+CODE:
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure to hold values during sorting
+struct SortInfo {
+int value;
+int distance;
+};
+
+// Function to calculate the absolute distance between two integers
+int absDistance(int x, int y) {
+return abs(x - y);
+}
+
+// Comparison function for qsort based on absolute distances from z
+int compareDistances(const void* a, const void* b) {
+int distance_a = ((struct SortInfo*)a)->distance;
+int distance_b = ((struct SortInfo*)b)->distance;
+
+return distance_a - distance_b;
+}
+
+// Function to sort the array based on absolute distances from z
+void dist_sort(int x[], int n, int z) {
+// Create an array of SortInfo structures
+// Allocate memory using new
+SortInfo* infoArray = new SortInfo[n];
+
+// ... (rest of your code)
+
+// Deallocate memory using delete[]
+
+delete[] infoArray;
+
+// Populate the structure array with values and their absolute distances
+for (int i = 0; i < n; i++) {
+infoArray[i].value = x[i];
+infoArray[i].distance = absDistance(x[i], z);
+}
+
+// Sort the array of structures based on distances
+qsort(infoArray, n, sizeof(struct SortInfo), compareDistances);
+
+// Copy the sorted values back to the original array
+for (int i = 0; i < n; i++) {
+x[i] = infoArray[i].value;
+}
+
+// Free the allocated memory
+free(infoArray);
+}
+
+// Function to print an array
+void printArray(int x[], int n) {
+for (int i = 0; i < n; i++) {
+printf("%d ", x[i]);
+}
+printf("\n");
+}
+
+int main() {
+int x[] = {9, 1, 12, 4, 2};
+int n = sizeof(x) / sizeof(x[0]);
+int z = 6;
+
+printf("Original Array: ");
+printArray(x, n);
+
+dist_sort(x, n, z);
+
+printf("Sorted Array by Absolute Distances from %d: ", z);
+printArray(x, n);
+
+return 0;
+}
+
+Complexity Analysis:
+Time complexity: O(n log n)
+
+Space complexity: O(n)
