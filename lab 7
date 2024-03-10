@@ -1,0 +1,107 @@
+Problem Statement :
+(a)	Give a suitable typedef with a brief explanation for representing a job which comprises a positive integer identification number and another positive integer for job size given as the time needed for completing the job.
+(b)	Give a suitable typedef with a brief explanation for representing a queue of jobs using either an arrya or a linked list.
+(c)	Give prototypes for the following functions on a queue of jobs (no need to write the function bodies). empty – which returns a value indicating whether a given queue is empty or not,
+enqueue – which puts a given job in a given queue,
+front – which returns the job from the front of a given queue if the queue is not empty; otherwise it returns a job with a negative identification number,
+dequeue – which deletes the front of a given queue
+(d)	Write a function which takes a queue of jobs and a time slice and processes the jobs using the Round- Robin strategy until the completion of each of them. The function should use the functions of Part (c)
+ 
+Algorithm:
+Step1: Define Structures: Define structures for representing a job and a queue of jobs. The job structure should contain an identification number and the time needed for completing the job.
+Step2. Initialize Queue: Initialize an empty queue to hold jobs. Step3: Enqueue Jobs: Enqueue the jobs into the queue.
+Step4: Process Jobs (Round-Robin):
+a.	While there are jobs in the queue:
+b.	Retrieve the front job from the queue.
+c.	Determine the time slice for processing (either the job's remaining time or a predefined time slice).
+d.	Process the job for the time slice.
+e.	If the job is not completed:
+i.	Update its remaining time.
+ii.	Enqueue the job back into the queue.
+f.	Dequeue the processed job from the queue.
+Step5: Output Results: Output any relevant information about the processing of jobs.
+
+Source Code:
+#include <stdio.h> #include <stdlib.h>
+
+// (a) typedef for representing a job typedef struct {
+int id;  // Identification number
+int size; // Job size (time needed for completion)
+} Job;
+
+// (b) typedef for representing a queue of jobs using an array const int MAX_SIZE = 100; // Maximum size of the queue
+
+typedef struct {
+Job* jobs; // Array to store jobs
+int front; // Index of the front element int rear; // Index of the rear element
+} JobQueue;
+
+// (c) Function prototypes
+int empty(const JobQueue* queue);
+void enqueue(JobQueue* queue, const Job* job); Job front(const JobQueue* queue);
+void dequeue(JobQueue* queue);
+
+// (d) Function to process jobs using Round-Robin strategy void roundRobin(JobQueue* queue, int timeSlice) {
+while (!empty(queue)) {
+ 
+Job currentJob = front(queue);
+
+// Process the job for the time slice or until completion
+int timeProcessed = (timeSlice < currentJob.size) ? timeSlice : currentJob.size;
+
+// Output information or perform other processing as needed
+printf("Processing Job %d for %d units of time.\n", currentJob.id, timeProcessed);
+
+// Update the job size and enqueue if not completed currentJob.size -= timeProcessed;
+if (currentJob.size > 0) { enqueue(queue, &currentJob);
+}
+
+// Remove the front job from the queue dequeue(queue);
+}
+}
+
+int main() {
+// Example usage JobQueue jobQueue;
+jobQueue.jobs = (Job*)malloc(MAX_SIZE * sizeof(Job)); // Dynamic memory allocation jobQueue.front = 0;
+jobQueue.rear = 0;
+
+// Enqueue some jobs with different numbers enqueue(&jobQueue, &(Job){101, 6});
+enqueue(&jobQueue, &(Job){102, 4});
+enqueue(&jobQueue, &(Job){103, 7});
+
+// Process jobs using Round-Robin with a time slice of 3 roundRobin(&jobQueue, 3);
+
+// Free dynamically allocated memory free(jobQueue.jobs);
+
+return 0;
+}
+
+// (c) Function implementations
+int empty(const JobQueue* queue) { return queue->front == queue->rear;
+}
+ 
+void enqueue(JobQueue* queue, const Job* job) {
+// Check for queue overflow
+if ((queue->rear + 1) % MAX_SIZE == queue->front) { printf("Queue overflow! Cannot enqueue more jobs.\n"); return;
+}
+
+// Enqueue the job at the rear queue->jobs[queue->rear] = *job;
+queue->rear = (queue->rear + 1) % MAX_SIZE;
+}
+
+Job front(const JobQueue* queue) {
+// Check if the queue is empty if (empty(queue)) {
+// Return a job with a negative identification number return (Job){-1, 0};
+}
+
+// Return the job at the front return queue->jobs[queue->front];
+}
+
+void dequeue(JobQueue* queue) {
+// Check if the queue is empty if (empty(queue)) {
+printf("Queue is empty! Cannot dequeue.\n"); return;
+}
+
+// Dequeue the front job
+queue->front = (queue->front + 1) % MAX_SIZE;
+}
