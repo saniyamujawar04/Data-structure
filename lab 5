@@ -1,0 +1,259 @@
+Problem Statement : Design,
+Develop and Implement a menu driven Program for the following operations on
+Doubly Linked List (DLL) of Employee Data with the fields: SSN, Name, Dept,
+Designation, Sal, PhNo
+a) Create a DLL of N Employees Data by
+using end insertion.
+b) Display the status of DLL and count the
+number of nodes in it
+c) Perform Insertion and Deletion at End
+of DLL
+d) Perform
+Insertion and Deletion at Front of DLL.
+Algorithm:
+Step 1:Start
+Step 2: Create a DLL by End Insertion
+− Initialize an empty doubly linked list (head isinitially null).
+− Repeat the following N times: a. Create a new Employee instance. b. Input employee details
+(SSN, Name, Dept, Designation, Salary, Phone Number). c. If the list is empty (head is null),
+set the new employee as the head. d. Otherwise, traverse the list to the end and insert the new
+employee at the end.
+Step 3: Display the DLL and Count Nodes
+− If the list is empty (head is null), print "Doubly Linked List is empty."
+− Initialize a count variable to 0.
+− Start from the head of the list.
+− Repeat while the current node is not null: a. Print the details of the current employee (SSN,
+Name, Dept, Designation, Salary, Phone Number). b. Move to the next node. c. Update the
+DR. D. Y. PATIL SCHOOL OF SCIENCE & TECHNOLOGY
+
+DR. D. Y. PATIL VIDYAPEETH, PUNE
+
+count.
+− Print "Number of nodes in the Doubly Linked List: " followed by the count.
+Step 4: Insert at End
+− Create a new Employee instance.
+− Input employee details (SSN, Name, Dept, Designation, Salary, Phone Number).
+− If the list is empty (head is null), set the new employee as the head.
+− Otherwise, traverse the list to the end and insert the new employee at the end.
+Step 5: Delete at End
+− If the list is empty (head is null), print an error message.
+− Start from the head of the list.
+− Repeat while the next node is not null: a. Move to the next node.
+− If the previous node is not null, update its next pointer to null. Otherwise, set the head to null.
+Step 6: Insert at Front
+− Create a new Employee instance.
+− Input employee details (SSN, Name, Dept, Designation, Salary, Phone Number).
+− Set the next pointer of the new employee to the current head of the list.
+− If the list is not empty, update the previous pointer of the current head.
+− Set the new employee as the new head of the list.
+Step 7: Delete at Front
+− If the list is empty (head is null), print an error message.
+− Set a temporary variable to the current head of the list.
+− Update the head of the list to the next node.
+− If there is a new head, update its previous pointer to null.
+− If the removed employee was the only one in the list, set the head to null.
+Step 8: End
+Source Code:
+import java.util.Scanner;
+class Employee {
+int SSN;
+String Name;
+String Dept;
+String Designation;
+float Sal;
+long PhNo;
+Employee prev;
+Employee next;
+public Employee() {
+this.prev = null;
+this.next = null;
+}
+}
+
+class DoublyLinkedList {
+private Employee head;
+public void createList(int N) {
+Scannerscanner = new Scanner(System.in);
+for (int i = 0; i < N; ++i) {
+Employee newEmployee = new Employee();
+System.out.println("Enter Employee " + (i + 1) + " details:");
+System.out.print("SSN: ");
+newEmployee.SSN = scanner.nextInt();
+System.out.print("Name: ");
+scanner.nextLine(); // Consume the newline character
+newEmployee.Name = scanner.nextLine();
+System.out.print("Dept: ");
+newEmployee.Dept = scanner.nextLine();
+System.out.print("Designation: ");
+newEmployee.Designation = scanner.nextLine();
+System.out.print("Salary: ");
+newEmployee.Sal = scanner.nextFloat();
+System.out.print("Phone Number: ");
+newEmployee.PhNo = scanner.nextLong();
+if (head == null) {
+head = newEmployee;
+} else {
+Employee temp = head;
+while (temp.next != null) {
+temp = temp.next;
+}
+temp.next = newEmployee;
+newEmployee.prev = temp;
+}
+}
+}
+public void displayList() {
+if (head == null) {
+System.out.println("Doubly Linked List is empty.");
+return;
+}
+Employee temp = head;
+int count = 0;
+System.out.println("Doubly Linked List:");
+while (temp != null) {
+System.out.println("SSN: " + temp.SSN + "\tName: " + temp.Name + "\tDept: " +
+temp.Dept + "\tDesignation: " + temp.Designation + "\tSalary: " + temp.Sal +
+
+"\tPhone Number: " + temp.PhNo);temp =
+temp.next;
+count++;
+}
+System.out.println("Number of nodes in the Doubly Linked List: " + count);
+}
+public void insertAtEnd() {
+Scanner scanner = new Scanner(System.in);
+Employee newEmployee = new Employee();
+System.out.println("Enter Employee details to insert at the end:");
+System.out.print("SSN: ");
+newEmployee.SSN = scanner.nextInt();
+System.out.print("Name: ");
+scanner.nextLine(); // Consume the newline character
+newEmployee.Name = scanner.nextLine();
+System.out.print("Dept: ");
+newEmployee.Dept = scanner.nextLine();
+System.out.print("Designation: ");
+newEmployee.Designation = scanner.nextLine();
+System.out.print("Salary: ");
+newEmployee.Sal = scanner.nextFloat();
+System.out.print("Phone Number: ");
+newEmployee.PhNo = scanner.nextLong();
+newEmployee.next = null;
+newEmployee.prev = null;
+if (head == null) {
+head = newEmployee;
+} else {
+Employee temp = head;
+while (temp.next != null) {
+temp = temp.next;
+}
+temp.next = newEmployee;
+newEmployee.prev = temp;
+}
+System.out.println("Employee inserted at the end successfully.");
+}
+public void deleteAtEnd() {
+if (head == null) {
+System.out.println("Doubly Linked List is empty. Cannot delete from an empty list.");
+return;
+}
+Employee temp = head;
+
+while (temp.next != null)
+{
+temp = temp.next;
+}
+if (temp.prev != null) {
+temp.prev.next = null;
+} else {
+head = null;
+}
+System.out.println("Employee deleted from the end successfully.");
+}
+public void insertAtFront() {
+Scanner scanner = new Scanner(System.in);
+Employee newEmployee = new Employee();
+System.out.println("Enter Employee details to insert at the front:");
+System.out.print("SSN: ");
+newEmployee.SSN = scanner.nextInt();
+System.out.print("Name: ");
+scanner.nextLine(); // Consume the newline character
+newEmployee.Name = scanner.nextLine();
+System.out.print("Dept: ");
+newEmployee.Dept = scanner.nextLine();
+System.out.print("Designation: ");
+newEmployee.Designation = scanner.nextLine();
+System.out.print("Salary: ");
+newEmployee.Sal = scanner.nextFloat();
+System.out.print("Phone Number: ");
+newEmployee.PhNo = scanner.nextLong();
+newEmployee.next = head;
+newEmployee.prev = null;
+if (head != null) {
+head.prev = newEmployee;
+}
+head = newEmployee;
+System.out.println("Employee inserted at the frontsuccessfully.");
+}
+public void deleteAtFront() {
+if (head == null) {
+System.out.println("Doubly Linked List is empty. Cannot delete from an empty list.");
+return;
+}
+Employee temp = head;
+head = temp.next;
+if (head != null) {
+
+head.prev = null;
+
+}
+System.out.println("Employee deleted from the front successfully.");
+}
+}
+public class DoublyLinkedListMenu {
+public static void main(String[] args) {
+Scanner scanner = new Scanner(System.in);
+DoublyLinkedList dll = new DoublyLinkedList();
+while (true) {
+System.out.println("\n----- Doubly Linked List Operations----- ");
+System.out.println("1. Create DLL of N Employees (End Insertion)");
+System.out.println("2. Display DLL and Count Nodes");
+System.out.println("3. Insert at End");
+System.out.println("4. Delete at End");
+System.out.println("5. Insert at Front");
+System.out.println("6. Delete at Front");
+System.out.println("7. Exit");
+System.out.print("Enter your choice: ");
+int choice = scanner.nextInt();
+switch (choice) {
+case 1:
+System.out.print("Enter the number of employees (N): ");
+int N = scanner.nextInt();
+dll.createList(N);
+break;
+case 2:
+dll.displayList();
+break;
+case 3:
+dll.insertAtEnd();
+break;
+case 4:
+dll.deleteAtEnd();
+break;
+case 5:
+dll.insertAtFront();
+break;
+case 6:
+dll.deleteAtFront();
+break;
+case 7:
+System.out.println("Exiting program.");
+
+System.exit(0);
+
+break;
+default:
+System.out.println("Invalid choice. Please enter a valid option.");
+}
+}
+}
+}
