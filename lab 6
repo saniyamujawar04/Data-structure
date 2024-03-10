@@ -1,0 +1,164 @@
+Problem Statement :
+
+(a) Give a suitable typedef for representing a stack of integers using either an array
+(b) Write C functions for implementing the following stack operations.
+init – which constructs and returns an empty stack,
+empty – which returns a value indicating whether a given stack is empty or not,
+push – which pushes a given integer on to a given stack,
+top – which returns the top element of a given stack,
+delete – which deletes the top element of a given stack.
+(c) Write an iterative C function which takes an unsigned integer and prints its representation to the
+base 5 using a stack; the function should use the data type defined by you for representing a
+stack and
+only the functions of Part (b).
+
+Algorithm:
+
+Step 1: Representation of a stack
+a. Start
+b. Declare a structure Stack with integer array ‘arr’, integer ‘top’, and integer ‘capacity’. c.
+Define a typedef for the struct Stack as Stack.
+d. End
+
+Step 2: Functions for Stack operations
+1. Initialization
+a. Start
+
+b. Declare a function top that takes a const Stack reference as a parameter and returns an
+integer.
+c. Inside a function Allocate dynamic memory for an integer array arr of size capacity. d.
+Initialize top to -1
+e. Set capacity to the provided parameter.
+f. Create a Stack with arr, top, and capacity.
+g. Return the created Stack.
+h. End
+
+2. Empty
+a. Start
+b. Declare a function isEmpty that takes a const Stack reference as a parameter and returns a
+boolean.
+c. Inside the function: Check if the value of 'top' member of the stack pointed to by the
+parameter 'stack' is equal to -1.
+d. If the condition in step C is true, return true, indicating that the stack is empty. e.
+Otherwise, return false, indicating that the stack is not empty.
+f. End
+3.Push
+a. Start
+b. Declare a function push that takes a reference to a Stack and an integer value as
+parameters.
+c. Inside the function: Check if 'top' is equal to 'capacity - 1'.
+d. If true, print "Stack overflow!" and return.
+e. Increment 'top'.
+f. Set the value at 'arr[top]' to the provided integer.
+g. End
+4. Top
+a. Start
+b. Declare a function top that takes a const Stack reference as a parameter and returns an
+integer.
+c. Inside the function: Check if the stack is empty using the empty function.
+d. If true, print "Stack is empty!" and return a default value.
+e. Return the value at 'arr[top]'.
+f. End
+5. Delete
+a. Start
+b. Declare a function delete (rename it to avoid conflicts with the delete keyword) that takes a
+reference to a Stack as a parameter.
+c. Inside the function:Check if the stack is empty using the empty function.
+d. If true, print "Stack is empty!" and return.
+e. Decrement 'top'.
+f. End
+
+Step 3: Function to print unsigned integer
+a. Start
+b. Declare a function printBase5 that takes an unsigned integer num as a parameter. c.
+Inside the function:
+
+d. Initialize a Stack named 'stack' using the init function with a maximum capacity of 100. e. While
+num is greater than 0, Push the remainder of num divided by 8 into the stack using the push
+function. Update num by dividing it by 8.
+f. Print "Base 8 representation: ".
+g. While the stack is not empty,Print the top element of the stack using the top function. h.
+Pop the top element off the stack using the pop function.
+i. Print a newline character.
+j. End
+
+Step 4: In Main Function
+a. Create a Stack object named myStack with a capacity of 10 using the init() function. b.
+Push the values 3, 7, and 5 onto the stack using the push() function.
+c. Print the top element of the stack using the peek() function.
+d. Pop an element from the stack using the pop() function.
+e. Print the top element of the stack after popping using the peek() function.
+f. Call the print_base_5() function with the number 23 to print its base 5 representation. g.
+Free the memory allocated for the stack using the free() function.
+h. Return 0 to indicate successful program execution.
+
+Source Code:
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct
+{
+int *arr;
+int top;
+int capacity;
+}
+Stack;
+Stack init(int capacity)
+{
+Stack stack;
+
+stack.arr = (int*)malloc(capacity * sizeof(int)); stack.top = -1;
+stack.capacity = capacity;
+return stack;
+}
+
+int empty(const Stack* stack) {
+return stack->top == -1;
+}
+void push(Stack* stack, int value) { if (stack->top == stack->capacity - 1) {
+printf("Stack overflow!\n");
+return;
+}
+stack->arr[++stack->top] = value;
+}
+int top(const Stack* stack) {
+if (empty(stack)) {
+printf("Stack is empty!\n");
+return -1; // Assuming -1 is not a valid value in the stack }
+return stack->arr[stack->top];
+}
+
+void pop(Stack* stack) {
+if (empty(stack)) {
+printf("Stack is empty!\n");
+return;
+}
+stack->top--;
+
+}
+void printBase8(unsigned int num) {
+Stack stack = init(100);
+while (num > 0) {
+push(&stack, num % 8);
+num /= 8;
+}
+printf("Base 8 representation: ");
+while (!empty(&stack)) {
+printf("%d", top(&stack));
+pop(&stack);
+}
+printf("\n");
+}
+int main() {
+
+Stack myStack = init(10);
+push(&myStack, 3);
+push(&myStack, 4);
+push(&myStack, 8);
+printf("Top element: %d\n", top(&myStack));
+pop(&myStack);
+printf("Top element after pop: %d\n", top(&myStack));
+printBase8 represents(24)
+free(myStack.arr);
+return 0;
+}
